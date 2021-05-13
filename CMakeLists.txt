@@ -61,6 +61,7 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC # inject user's options
 
 # platform/compiler specific settings
 if(CMAKE_SYSTEM_NAME MATCHES Linux)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
     find_package(Threads REQUIRED)
     target_link_libraries(${PROJECT_NAME} INTERFACE Threads::Threads ${CMAKE_DL_LIBS})
 elseif(WIN32 AND ${CMAKE_SIZEOF_VOID_P} LESS 8) # this is a 32bit windows
