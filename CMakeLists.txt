@@ -4,19 +4,32 @@ project(SQLite3
     LANGUAGES C
     )
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(CMAKE_CXX_COMPILER clang++)
+set(CMAKE_C_COMPILER clang)
+
 include(GNUInstallDirs)
+
+set(CMAKE_INSTALL_LIBDIR  lib)
+
+if (NOT CMAKE_INSTALL_INCLUDEDIR)
+    set(CMAKE_INSTALL_INCLUDEDIR  include)
+endif ()
 
 #------------------------------------------------------------------------------
 # build options and optional modules:
-option(SQLITE_ENABLE_DBSTAT_VTAB  "enables dbstat virtual table"                 OFF)
+option(SQLITE_ENABLE_DBSTAT_VTAB  "enables dbstat virtual table"                 ON)
 option(SQLITE_ENABLE_FTS3         "enables full text searches version 3"         OFF)
 option(SQLITE_ENABLE_FTS4         "enables full text searches version 3 & 4"     OFF)
-option(SQLITE_ENABLE_FTS5         "enables full text searches version 5"         OFF)
+option(SQLITE_ENABLE_FTS5         "enables full text searches version 5"         ON)
 option(SQLITE_ENABLE_GEOPOLY      "enables Geopoly extention"                    OFF)
-option(SQLITE_ENABLE_ICU          "enables international components for unicode" OFF)
+option(SQLITE_ENABLE_ICU          "enables international components for unicode" ON)
 option(SQLITE_ENABLE_JSON1        "enables JSON SQL functions"                   ON)
-option(SQLITE_ENABLE_RBU          "enables resumable bulk update extension"      OFF)
-option(SQLITE_ENABLE_RTREE        "enables R*TRee index extension"               OFF)
+option(SQLITE_ENABLE_RBU          "enables resumable bulk update extension"      ON)
+option(SQLITE_ENABLE_RTREE        "enables R*TRee index extension"               ON)
 option(SQLITE_RECOMMENDED_OPTIONS "compile by SQLite3 recommended options"       ON)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -45,16 +58,16 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC # inject user's options
         $<$<BOOL:${SQLITE_ENABLE_RBU}>:SQLITE_ENABLE_RBU>
         $<$<BOOL:${SQLITE_ENABLE_RTREE}>:SQLITE_ENABLE_RTREE>
         $<$<BOOL:${SQLITE_RECOMMENDED_OPTIONS}>:
-            SQLITE_DQS=0
+            SQLITE_DQS=1
             SQLITE_DEFAULT_MEMSTATUS=0
-            SQLITE_DEFAULT_WAL_SYNCHRONOUS=1
-            SQLITE_LIKE_DOESNT_MATCH_BLOBS
+            SQLITE_DEFAULT_WAL_SYNCHRONOUS=0
+            SQLITE_LIKE_DOESNT_MATCH_BLOBS=0
             SQLITE_MAX_EXPR_DEPTH=0
-            SQLITE_OMIT_DECLTYPE
-            SQLITE_OMIT_DEPRECATED
+            SQLITE_OMIT_DECLTYPE=0
+            SQLITE_OMIT_DEPRECATED=0
             SQLITE_OMIT_PROGRESS_CALLBACK
-            SQLITE_OMIT_SHARED_CACHE
-            SQLITE_USE_ALLOCA
+            SQLITE_OMIT_SHARED_CACHE=1
+            SQLITE_USE_ALLOCA=1
         >
     >
     )
